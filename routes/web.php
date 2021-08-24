@@ -12,7 +12,12 @@ Route::get('/dashboard/help-center', 'Backend\DashboardController@help_center')-
 Route::get('/dashboard/logout', 'Backend\DashboardController@logout')->name('dashboard.logout');
 Route::get('/lang/{language}', 'LocalizationController@switch')->name('localization.switch');
 
+// MAIN
+require __DIR__.'/backend/main/item.php';
+require __DIR__.'/backend/main/stock.php';
+require __DIR__.'/backend/main/category-stock.php';
+
 // SYSTEM
-require __DIR__.'/backend/system/main.php';
+require __DIR__.'/backend/system/general.php';
 require __DIR__.'/backend/system/dummy.php';
 require __DIR__.'/backend/system/management.php';

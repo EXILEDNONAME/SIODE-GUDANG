@@ -26,9 +26,13 @@ class AppServiceProvider extends ServiceProvider
       'App\Console\Commands\CrudApiControllerCommand'
     );
 
+    // Main
+    require_once app_path() . '/Helpers/Main/Stock.php';
+
     // System
     require_once app_path() . '/Helpers/System/Default.php';
     require_once app_path() . '/Helpers/System/Dummy.php';
+
   }
 
   /**
