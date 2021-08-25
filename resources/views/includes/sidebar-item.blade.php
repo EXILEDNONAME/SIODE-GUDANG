@@ -35,6 +35,13 @@
   </a>
 </li>
 
+<li class="menu-item {{ (request()->is('dashboard/suppliers*')) ? 'menu-item-open' : '' }}">
+  <a href="/dashboard/suppliers" class="menu-link">
+    <i class="menu-icon fas fa-box-open"></i>
+    <span class="menu-text"> Suppliers </span>
+  </a>
+</li>
+
 <li class="menu-item {{ (request()->is('dashboard/transactions*')) ? 'menu-item-open' : '' }}">
   <a href="javascript:;" class="menu-link">
     <i class="menu-icon fas fa-exchange-alt"></i>
