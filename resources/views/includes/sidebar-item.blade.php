@@ -12,8 +12,8 @@
   <div class="menu-submenu">
     <i class="menu-arrow"></i>
     <ul class="menu-subnav">
-      <li class="menu-item {{ (request()->is('dashboard/management/roles*')) ? 'menu-item-active' : '' }}">
-        <a href="/dashboard/management/roles" class="menu-link">
+      <li class="menu-item {{ (request()->is('dashboard/item-incomings*')) ? 'menu-item-active' : '' }}">
+        <a href="/dashboard/item-incomings" class="menu-link">
           <i class="menu-bullet menu-bullet-line"><span></span></i>
           <span class="menu-text"> Incoming </span>
         </a>
@@ -37,7 +37,7 @@
 
 <li class="menu-item {{ (request()->is('dashboard/suppliers*')) ? 'menu-item-open' : '' }}">
   <a href="/dashboard/suppliers" class="menu-link">
-    <i class="menu-icon fas fa-box-open"></i>
+    <i class="menu-icon fas fa-boxes"></i>
     <span class="menu-text"> Suppliers </span>
   </a>
 </li>

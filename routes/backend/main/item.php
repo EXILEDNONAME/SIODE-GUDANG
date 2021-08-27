@@ -3,7 +3,7 @@
 // ITEM - CATEGORIES
 Route::group([
   'as' => 'main.item.categories.',
-  'prefix' => 'dashboard/item/categories',
+  'prefix' => 'dashboard/item-categories',
   'namespace' => 'Backend\Main',
 ], function(){
   Route::get('status-done/{id}', 'ItemCategoryController@status_done')->name('status-done');
@@ -19,7 +19,7 @@ Route::group([
 // ITEM - INCOMINGS
 Route::group([
   'as' => 'main.item.incomings.',
-  'prefix' => 'dashboard/item/incomings',
+  'prefix' => 'dashboard/item-incomings',
   'namespace' => 'Backend\Main',
 ], function(){
   Route::get('status-done/{id}', 'ItemIncomingController@status_done')->name('status-done');
@@ -35,7 +35,7 @@ Route::group([
 // ITEM - OUTCOMINGS
 Route::group([
   'as' => 'main.item.outcomings.',
-  'prefix' => 'dashboard/item/outcomings',
+  'prefix' => 'dashboard/item-outcomings',
   'namespace' => 'Backend\Main',
 ], function(){
   Route::get('status-done/{id}', 'ItemOutcomingController@status_done')->name('status-done');
