@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
     );
 
     // Main
+    require_once app_path() . '/Helpers/Main/General.php';
     require_once app_path() . '/Helpers/Main/Item.php';
-    require_once app_path() . '/Helpers/Main/Stock.php';
 
     // System
     require_once app_path() . '/Helpers/System/Default.php';

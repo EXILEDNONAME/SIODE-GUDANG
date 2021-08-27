@@ -3,7 +3,7 @@
   <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 </li>
 
-<li class="menu-item menu-item-submenu {{ (request()->is('dashboard/management*')) ? 'menu-item-open' : '' }}">
+<li class="menu-item menu-item-submenu {{ (request()->is('dashboard/item*')) ? 'menu-item-open' : '' }}">
   <a href="javascript:;" class="menu-link menu-toggle">
     <i class="menu-icon fas fa-shield-alt"></i>
     <span class="menu-text"> Items </span>
@@ -18,7 +18,7 @@
           <span class="menu-text"> Incoming </span>
         </a>
       </li>
-        <li class="menu-item {{ (request()->is('dashboard/management/users*')) ? 'menu-item-active' : '' }}">
+        <li class="menu-item {{ (request()->is('dashboard/item-outcomings*')) ? 'menu-item-active' : '' }}">
         <a href="/dashboard/management/users" class="menu-link">
           <i class="menu-bullet menu-bullet-line"><span></span></i>
           <span class="menu-text"> Outcoming </span>
@@ -26,6 +26,13 @@
       </li>
     </ul>
   </div>
+</li>
+
+<li class="menu-item {{ (request()->is('dashboard/catalogs*')) ? 'menu-item-open' : '' }}">
+  <a href="/dashboard/catalogs" class="menu-link">
+    <i class="menu-icon fas fa-box-open"></i>
+    <span class="menu-text"> Catalogs </span>
+  </a>
 </li>
 
 <li class="menu-item {{ (request()->is('dashboard/stocks*')) ? 'menu-item-open' : '' }}">

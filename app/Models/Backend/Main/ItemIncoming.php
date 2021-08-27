@@ -4,8 +4,8 @@ namespace App\Models\Backend\Main;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\Backend\Main\Catalog;
 use App\Models\Backend\Main\Supplier;
-use App\Models\Backend\Main\ItemCategory;
 
 class ItemIncoming extends Model {
 
@@ -17,12 +17,12 @@ class ItemIncoming extends Model {
 
   protected static $logAttributes = ['*'];
 
-  Public function suppliers(){
-    return $this->belongsTo(Supplier::class, 'id_supplier');
+  Public function catalogs(){
+    return $this->belongsTo(Catalog::class, 'id_catalog');
   }
 
-  Public function item_categories(){
-    return $this->belongsTo(ItemCategory::class, 'id_category');
+  Public function suppliers(){
+    return $this->belongsTo(Supplier::class, 'id_supplier');
   }
 
 }

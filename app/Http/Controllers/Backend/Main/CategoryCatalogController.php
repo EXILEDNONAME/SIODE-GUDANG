@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Activitylog\Models\Activity;
 
-use App\Http\Requests\Backend\Main\ItemIncoming\StoreRequest;
-use App\Http\Requests\Backend\Main\ItemIncoming\UpdateRequest;
+use App\Http\Requests\Backend\Main\CategoryCatalog\StoreRequest;
+use App\Http\Requests\Backend\Main\CategoryCatalog\UpdateRequest;
 
-class ItemIncomingController extends Controller {
+class CategoryCatalogController extends Controller {
 
   /**
   **************************************************
@@ -24,12 +24,10 @@ class ItemIncomingController extends Controller {
   public function __construct() {
 
     $this->middleware('auth');
-    $this->url = '/dashboard/item-incomings';
-    $this->path = 'pages.backend.main.item-incoming';
-    $this->model = 'App\Models\Backend\Main\ItemIncoming';
-
-    if (request('date_start') && request('date_end')) { $this->data = $this->model::orderby('date_start', 'desc')->whereBetween('date_start', [request('date_start'), request('date_end')])->get(); }
-    else { $this->data = $this->model::orderby('date_start', 'desc')->get(); }
+    $this->url = '/dashboard/category-catalogs';
+    $this->path = 'pages.backend.main.category-catalog';
+    $this->model = 'App\Models\Backend\Main\CategoryCatalog';
+    $this->data = $this->model::get();
 
   }
 
@@ -45,8 +43,6 @@ class ItemIncomingController extends Controller {
       return DataTables::of($this->data)
       ->editColumn('date_start', function($order) { return \Carbon\Carbon::parse($order->date_start)->format('d F Y, H:i'); })
       ->editColumn('date_end', function($order) { return \Carbon\Carbon::parse($order->date_end)->format('d F Y, H:i'); })
-      ->editColumn('id_catalogs', function($order) { return $order->catalogs->name; })
-      ->editColumn('id_suppliers', function($order) { return $order->suppliers->name; })
       ->rawColumns(['description'])
       ->addIndexColumn()
       ->make(true);

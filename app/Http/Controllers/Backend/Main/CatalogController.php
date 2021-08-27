@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Activitylog\Models\Activity;
 
-use App\Http\Requests\Backend\Main\ItemIncoming\StoreRequest;
-use App\Http\Requests\Backend\Main\ItemIncoming\UpdateRequest;
+use App\Http\Requests\Backend\Main\Catalog\StoreRequest;
+use App\Http\Requests\Backend\Main\Catalog\UpdateRequest;
 
-class ItemIncomingController extends Controller {
+class CatalogController extends Controller {
 
   /**
   **************************************************
@@ -24,12 +24,12 @@ class ItemIncomingController extends Controller {
   public function __construct() {
 
     $this->middleware('auth');
-    $this->url = '/dashboard/item-incomings';
-    $this->path = 'pages.backend.main.item-incoming';
-    $this->model = 'App\Models\Backend\Main\ItemIncoming';
+    $this->url = '/dashboard/catalogs';
+    $this->path = 'pages.backend.main.catalog';
+    $this->model = 'App\Models\Backend\Main\Catalog';
 
     if (request('date_start') && request('date_end')) { $this->data = $this->model::orderby('date_start', 'desc')->whereBetween('date_start', [request('date_start'), request('date_end')])->get(); }
-    else { $this->data = $this->model::orderby('date_start', 'desc')->get(); }
+    else { $this->data = $this->model::get(); }
 
   }
 
@@ -45,8 +45,7 @@ class ItemIncomingController extends Controller {
       return DataTables::of($this->data)
       ->editColumn('date_start', function($order) { return \Carbon\Carbon::parse($order->date_start)->format('d F Y, H:i'); })
       ->editColumn('date_end', function($order) { return \Carbon\Carbon::parse($order->date_end)->format('d F Y, H:i'); })
-      ->editColumn('id_catalogs', function($order) { return $order->catalogs->name; })
-      ->editColumn('id_suppliers', function($order) { return $order->suppliers->name; })
+      ->editColumn('id_categories', function($order) { return $order->category_catalogs->name; })
       ->rawColumns(['description'])
       ->addIndexColumn()
       ->make(true);
@@ -85,8 +84,16 @@ class ItemIncomingController extends Controller {
   **/
 
   public function store(StoreRequest $request) {
+    $characters = '0123456789';
+    $randomString = '';
+
+    for ($i = 0; $i < 5; $i++) {
+        $index = rand(0, strlen($characters) - 1);
+        $randomString .= $characters[$index];
+    }
+
     $store = $request->all();
-    $this->model::create($store);
+    $this->model::create(array_merge($store, ['code' => '#' . $randomString . '-' . $request->get('color')[0] . '/' . $request->get('size')]));
     return redirect($this->url)->with('success', trans('default.notification.success.item-created'));
   }
 
