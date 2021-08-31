@@ -1,14 +1,18 @@
-@extends('layouts.backend.system.index', ['status' => 'true'])
+@extends('layouts.backend.system.index')
 @push('title', 'Stocks')
 
 @push('content-head')
-<th> Category </th>
+<th> Code </th>
 <th> Name </th>
-<th> Description </th>
+<th> Color </th>
+<th> Size </th>
+<th> Quantity </th>
 @endpush
 
 @push('content-body')
-{ data: 'id_categories' },
+{ data: 'code' },
 { data: 'name' },
-{ data: 'description' },
+{ data: 'color' },
+{ data: 'size' },
+{ data: 'quantities' },
 @endpush

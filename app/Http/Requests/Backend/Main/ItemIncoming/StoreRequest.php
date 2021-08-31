@@ -24,7 +24,8 @@ class StoreRequest extends FormRequest
   public function rules()
   {
     return [
-      'name' => 'required|min:3',
+      'id_catalog' => 'required',
+      'quantity' => 'required',
     ];
   }
 }

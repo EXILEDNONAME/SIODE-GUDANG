@@ -26,10 +26,8 @@ class StockController extends Controller {
     $this->middleware('auth');
     $this->url = '/dashboard/stocks';
     $this->path = 'pages.backend.main.stock';
-    $this->model = 'App\Models\Backend\Main\Stock';
-
-    if (request('date_start') && request('date_end')) { $this->data = $this->model::orderby('date_start', 'desc')->whereBetween('date_start', [request('date_start'), request('date_end')])->get(); }
-    else { $this->data = $this->model::orderby('date_start', 'desc')->get(); }
+    $this->model = 'App\Models\Backend\Main\Catalog';
+    $this->data = $this->model::get();
 
   }
 
@@ -43,9 +41,10 @@ class StockController extends Controller {
     $model = $this->model;
     if(request()->ajax()) {
       return DataTables::of($this->data)
-      ->editColumn('date_start', function($order) { return \Carbon\Carbon::parse($order->date_start)->format('d F Y, H:i'); })
-      ->editColumn('date_end', function($order) { return \Carbon\Carbon::parse($order->date_end)->format('d F Y, H:i'); })
-      ->editColumn('id_categories', function($order) { return $order->category_stocks->name; })
+      ->editColumn('quantities', function($order) {
+        $set = \DB::table('item_incomings')->where('id_catalog', $order->id)->get();
+        foreach($set as $a) { return $a->quantity; }
+      })
       ->rawColumns(['description'])
       ->addIndexColumn()
       ->make(true);

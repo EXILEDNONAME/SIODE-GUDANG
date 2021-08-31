@@ -2,8 +2,8 @@
 
 Auth::routes();
 
-Route::get('/', function () { return view('pages.frontend.index'); });
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 Route::get('/dashboard', 'Backend\DashboardController@index')->name('dashboard.index');
