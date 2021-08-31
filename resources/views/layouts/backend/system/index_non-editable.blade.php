@@ -13,7 +13,6 @@
           <h3 class="card-label"> {{ trans('default.page.index') }} </h3>
         </div>
         <div class="card-toolbar">
-          <a href="{{ URL::current() }}/create" class="btn btn-sm btn-icon btn-clean btn-icon-md"  data-toggle="tooltip" title="{{ trans('default.label.toolbar.create') }}"><i class="flaticon2-add-1"></i></a>
           <div class="dropdown dropdown-inline">
             <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="flaticon-download-1"></i>
@@ -51,9 +50,6 @@
           <div class="show" id="kt_datatable_group_action_form_2">
             <a id="file-refresh" class="btn btn-sm btn-icon btn-clean btn-icon-md" data-toggle="tooltip" title="{{ trans('default.label.toolbar.refresh') }}"><i class="flaticon2-refresh"></i></a>
           </div>
-          <div class="collapse" id="kt_datatable_group_action_form">
-            <a data-url="" class="delete-all btn btn-sm btn-icon btn-clean btn-icon-md" data-toggle="tooltip" title="{{ trans('default.label.toolbar.delete') }}"><i class="text-danger fas fa-trash"></i></a>
-          </div>
           <a class="btn btn-sm btn-icon btn-clean btn-light-md" data-card-tool="toggle"><i class="fas fa-caret-down"></i></a>
         </div>
       </div>
@@ -78,16 +74,6 @@
         <div class="row">
           <div class="col-lg-9">
             <div class="row align-items-center">
-
-              <div class="col-sm-2 my-2 my-lg-0">
-                <div class="d-flex align-items-center">
-                  <select data-column="-2" class="form-control filter-active">
-                    <option value=""> - Select Active - </option>
-                    <option value="1"> Yes </option>
-                    <option value="2"> No </option>
-                  </select>
-                </div>
-              </div>
 
               @if ( !empty($daterange) && $daterange == 'true')
               <div class="col-md-4 my-2 my-md-0">
@@ -145,8 +131,6 @@
                 <th class="no-export"> Status </th>
                 @endif
                 @stack('content-head')
-                <th class="no-export"> Active </th>
-                <th class="no-export"> </th>
               </tr>
             </thead>
           </table>
@@ -156,7 +140,6 @@
   </div>
 </div>
 
-@include('includes.activities')
 @endpush
 
 @push('js')
@@ -184,7 +167,6 @@ var KTDatatablesExtensionsKeytable = function() {
       ajax: {
         url: "{{ URL::current() }}",
         "data" : function (d) {
-          d.filter_active = $('.filter_active').val();
           @if ( !empty($daterange) && $daterange == 'true')
           d.date_start = $('#date_start').val();
           d.date_end = $('#date_end').val();
@@ -299,31 +281,8 @@ var KTDatatablesExtensionsKeytable = function() {
         },
         @endif
         @stack('content-body')
-        {
-          data: 'active', orderable: true, 'className': 'align-middle text-center', 'width': '1',
-          render: function ( data, type, row ) {
-            if ( data == 1 ) { return '<a href="javascript:void(0);" id="disable" data-toggle="tooltip" data-original-title="Disable" data-id="' + row.id + '"><span class="label label-info label-inline"> {{ trans("default.label.yes") }} </span></a>'; }
-            if ( data == 2 ) { return '<a href="javascript:void(0);" id="enable" data-toggle="tooltip" data-original-title="Enable" data-id="' + row.id + '"><span class="label label-dark label-inline"> {{ trans("default.label.no") }} </span></a>'; }
-          }
-        },
-        {
-          data: 'action', orderable: false, orderable: false, searchable: false, 'width': '1',
-          render : function ( data, type, row) {
-            return ''+
-            '<div class="dropdown dropdown-inline">'+
-            '<button type="button" class="btn btn-hover-light-info btn-icon btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ki ki-bold-more-ver"></i></button>'+
-            '<div class="dropdown-menu dropdown-menu-xs" style=""><ul class="navi navi-hover py-5">'+
-            '<li class="navi-item"><a href="{{ URL::current() }}/' + row.id + '" class="navi-link"><span class="navi-icon"><i class="flaticon2-expand"></i></span><span class="navi-text">{{ trans("default.datatable.action.view") }}</span></a></li>'+
-            '<li class="navi-item"><a href="{{ URL::current() }}/' + row.id + '/edit" class="navi-link"><span class="navi-icon"><i class="flaticon2-contract"></i></span><span class="navi-text">{{ trans("default.datatable.action.edit") }}</span></a></li>'+
-            '<li class="navi-item"><a href="javascript:void(0);" class="navi-link" id="delete" data-id="' + row.id + '"><span class="navi-icon"><i class="flaticon2-trash"></i></span><span class="navi-text delete"> {{ trans("default.datatable.action.delete") }} </span></a></li>';
-          },
-        },
       ],
       order: [[1, 'asc']]
-    });
-
-    $('.filter-active').change(function () {
-      table.column(-2).search( $(this).val() ).draw();
     });
 
     @if ( !empty($daterange) && $daterange == 'true')
@@ -342,7 +301,6 @@ var KTDatatablesExtensionsKeytable = function() {
     @endif
 
     $('#reset').click(function(){
-      $('.filter-active').val('');
       $('.filter-status').val('');
       $('#date_start').val('');
       $('#date_end').val('');
@@ -450,118 +408,6 @@ var KTDatatablesExtensionsKeytable = function() {
           }
         });
       }
-    });
-
-    $('body').on('click', '#enable', function () {
-      var id = $(this).data("id");
-      $.ajax({
-        type: "get",
-        url: "{{ URL::current() }}/enable/"+id,
-        processing: true,
-        serverSide: true,
-        success: function (data) {
-          var oTable = $('#exilednoname').dataTable();
-          oTable.fnDraw(false);
-          toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-          toastr.success("{{ trans('default.notification.success.active-enable') }}");
-        },
-        error: function (data) {
-          toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-          toastr.error("{{ trans('default.notification.error.restrict') }}!");
-        }
-      });
-    });
-
-    $('body').on('click', '#disable', function () {
-      var id = $(this).data("id");
-      $.ajax({
-        type: "get",
-        url: "{{ URL::current() }}/disable/"+id,
-        processing: true,
-        serverSide: true,
-        success: function (data) {
-          var oTable = $('#exilednoname').dataTable();
-          oTable.fnDraw(false);
-          toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-          toastr.success("{{ trans('default.notification.success.active-disable') }}");
-        },
-        error: function (data) {
-          toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-          toastr.error("{{ trans('default.notification.error.restrict') }}!");
-        }
-      });
-    });
-
-    $('.delete-all').on('click', function(e) {
-      var exilednonameArr = [];
-      $(".selected").each(function() {
-        exilednonameArr.push($(this).attr('id'));
-      });
-      var strEXILEDNONAME = exilednonameArr.join(",");
-      if (confirm('Are you sure you want to permanently delete this comment?')){
-        $.ajax({
-          url: "{{ URL::current() }}/deleteall",
-          type: 'get',
-          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          data: 'EXILEDNONAME='+strEXILEDNONAME,
-          success: function (data) {
-            var oTable = $('#exilednoname').dataTable();
-            oTable.fnDraw(false);
-            toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-            toastr.success("{{ trans('default.notification.success.delete-all') }}");
-          },
-          error: function (data) {
-            toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-            toastr.error("{{ trans('default.notification.error.restrict') }}!");
-          }
-        });
-      }
-    });
-
-    $('body').on('click', '#delete', function () {
-      var id = $(this).data("id");
-
-      @if (request()->is('dashboard/management/users*'))
-      if ( id == 1) {
-        toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-        toastr.error("{{ trans('default.notification.error.restrict') }}!");
-      }
-      else {
-        if(confirm("Are You sure want to delete !")){
-          $.ajax({
-            type: "get",
-            url: "{{ URL::current() }}/delete/"+id,
-            success: function (data) {
-              var oTable = $('#exilednoname').dataTable();
-              oTable.fnDraw(false);
-              toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-              toastr.success("{{ trans('default.notification.success.delete') }}");
-            },
-            error: function (data) {
-              toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-              toastr.error("{{ trans('default.notification.error.restrict') }}!");
-            }
-          });
-        }
-      }
-      @else
-      if(confirm("Are You sure want to delete !")){
-        $.ajax({
-          type: "get",
-          url: "{{ URL::current() }}/delete/"+id,
-          success: function (data) {
-            var oTable = $('#exilednoname').dataTable();
-            oTable.fnDraw(false);
-            toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-            toastr.success("{{ trans('default.notification.success.delete') }}");
-          },
-          error: function (data) {
-            toastr.options = { "positionClass": "toast-bottom-right", "closeButton": true, };
-            toastr.error("{{ trans('default.notification.error.restrict') }}!");
-          }
-        });
-      }
-      @endif
     });
 
   };

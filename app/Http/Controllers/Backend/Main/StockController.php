@@ -42,10 +42,14 @@ class StockController extends Controller {
     if(request()->ajax()) {
       return DataTables::of($this->data)
       ->editColumn('quantities', function($order) {
-        $set = \DB::table('item_incomings')->where('id_catalog', $order->id)->get();
-        foreach($set as $a) { return $a->quantity; }
+        $incoming = \DB::table('item_incomings')->where('id_catalog', $order->id)->sum('quantity');
+        $outcoming = \DB::table('item_outcomings')->where('id_catalog', $order->id)->sum('quantity');
+        $dummy = $incoming - $outcoming;
+        if ($dummy >= 10 ) { return $dummy; }
+        else { return '<span class="label label-danger label-inline">' . $dummy . '</span>'; }
       })
       ->rawColumns(['description'])
+      ->escapeColumns('quantities')
       ->addIndexColumn()
       ->make(true);
     }

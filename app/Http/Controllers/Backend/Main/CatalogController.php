@@ -46,6 +46,12 @@ class CatalogController extends Controller {
       ->editColumn('date_start', function($order) { return \Carbon\Carbon::parse($order->date_start)->format('d F Y, H:i'); })
       ->editColumn('date_end', function($order) { return \Carbon\Carbon::parse($order->date_end)->format('d F Y, H:i'); })
       ->editColumn('id_categories', function($order) { return $order->category_catalogs->name; })
+      ->editColumn('stock', function($order) {
+        $dummy = \DB::table('item_incomings')->where('id_catalog', $order->id)->sum('quantity');
+        if ( $dummy > 10) { return $dummy; }
+        else { return 'sadas'; }
+        //
+      })
       ->rawColumns(['description'])
       ->addIndexColumn()
       ->make(true);

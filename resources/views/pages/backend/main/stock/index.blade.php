@@ -1,4 +1,4 @@
-@extends('layouts.backend.system.index')
+@extends('layouts.backend.system.index_non-editable')
 @push('title', 'Stocks')
 
 @push('content-head')
@@ -10,9 +10,9 @@
 @endpush
 
 @push('content-body')
-{ data: 'code' },
+{ data: 'code', 'width': '1', 'className': 'text-nowrap' },
 { data: 'name' },
-{ data: 'color' },
-{ data: 'size' },
-{ data: 'quantities' },
+{ data: 'color', 'width': '1', 'className': 'text-nowrap' },
+{ data: 'size', 'className': 'align-middle text-center', 'width': '1', },
+{ data: 'quantities', 'className': 'align-middle text-center', 'width': '1', },
 @endpush

@@ -1,1 +1,2 @@
-- Blank Template Non-Editable
+- Catalog
+- Supplier

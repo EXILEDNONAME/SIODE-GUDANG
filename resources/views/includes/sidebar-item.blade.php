@@ -3,6 +3,13 @@
   <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 </li>
 
+<li class="menu-item {{ (request()->is('dashboard/catalogs*')) ? 'menu-item-open' : '' }}">
+  <a href="/dashboard/catalogs" class="menu-link">
+    <i class="menu-icon fas fa-box-open"></i>
+    <span class="menu-text"> Catalogs </span>
+  </a>
+</li>
+
 <li class="menu-item menu-item-submenu {{ (request()->is('dashboard/item*')) ? 'menu-item-open' : '' }}">
   <a href="javascript:;" class="menu-link menu-toggle">
     <i class="menu-icon fas fa-shield-alt"></i>
@@ -28,15 +35,8 @@
   </div>
 </li>
 
-<li class="menu-item {{ (request()->is('dashboard/catalogs*')) ? 'menu-item-open' : '' }}">
-  <a href="/dashboard/catalogs" class="menu-link">
-    <i class="menu-icon fas fa-box-open"></i>
-    <span class="menu-text"> Catalogs </span>
-  </a>
-</li>
-
 <li class="menu-item {{ (request()->is('dashboard/stocks*')) ? 'menu-item-open' : '' }}">
-  <a href="javascript:;" class="menu-link">
+  <a href="/dashboard/stocks" class="menu-link">
     <i class="menu-icon fas fa-box-open"></i>
     <span class="menu-text"> Stocks </span>
   </a>
